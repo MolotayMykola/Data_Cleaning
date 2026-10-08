@@ -44,8 +44,8 @@ An end-to-end SQL data cleaning project: a raw CSV of company layoffs goes in, a
 | NULLs in `location`, `industry`, `stage`, `country` | 1, 2, 8, 2 | 0, 0, 0, 0 |
 | Case-variant company names | 9 pairs | 0 |
                                                                 
-Raw Data (<img width="1280" height="167" alt="image" src="https://github.com/user-attachments/assets/dcfa5eb6-fb19-431a-afbd-092c65d6bd30" />)
-Cleaned Data(<img width="1280" height="171" alt="image" src="https://github.com/user-attachments/assets/b412c6db-eab3-40e1-bb53-bd5026911ab0" />)
+Raw Data <img width="1280" height="167" alt="image" src="https://github.com/user-attachments/assets/dcfa5eb6-fb19-431a-afbd-092c65d6bd30" />
+Cleaned Data<img width="1280" height="171" alt="image" src="https://github.com/user-attachments/assets/b412c6db-eab3-40e1-bb53-bd5026911ab0" />
 
 
 ## SQL techniques used
