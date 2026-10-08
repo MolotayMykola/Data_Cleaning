@@ -43,9 +43,9 @@ An end-to-end SQL data cleaning project: a raw CSV of company layoffs goes in, a
 | `percentage_laid_off` type | text | `numeric` |
 | NULLs in `location`, `industry`, `stage`, `country` | 1, 2, 8, 2 | 0, 0, 0, 0 |
 | Case-variant company names | 9 pairs | 0 |
+<img width="1280" height="167" alt="image" src="https://github.com/user-attachments/assets/dcfa5eb6-fb19-431a-afbd-092c65d6bd30" />
+<img width="1280" height="171" alt="image" src="https://github.com/user-attachments/assets/b412c6db-eab3-40e1-bb53-bd5026911ab0" />
 
-*[Screenshot: raw data in pgAdmin]*
-*[Screenshot: cleaned data in pgAdmin]*
 
 ## SQL techniques used
 
