@@ -186,7 +186,7 @@ FROM layoffs_staging;
 
 -- 6.2 location: Product Hunt (single row, restored from public information)
 UPDATE layoffs_staging
-SET location = 'San Francisco, California'
+SET location = 'San Francisco'
 WHERE company = 'Product Hunt' AND location IS NULL;
 
 -- 6.3 industry: Appsmith and Eyeo (analyst judgement; no better-fitting
