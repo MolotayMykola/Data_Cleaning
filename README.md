@@ -1,19 +1,17 @@
-# Global Layoffs: Data Cleaning in PostgreSQL
-
-An end-to-end SQL data cleaning project: a raw CSV of company layoffs goes in, a clean, analysis-ready table comes out. Every cleaning decision is documented in the script and explained below.
+# Global Layoffs: Data Cleaning and Analysis in PostgreSQL
+An end-to-end SQL project: a raw CSV of company layoffs is cleaned, then analyzed. Every cleaning decision is documented in the script and explained below.
 
 **Tools:** PostgreSQL 18, pgAdmin
 **Dataset:** [Global Layoffs 2022 on Kaggle](https://www.kaggle.com/datasets/swaptr/layoffs-2022) (4,615 rows, 11 columns at download time; the dataset is updated by its author)
-**Script:** [`layoffs_cleaning.sql`](layoffs_cleaning.sql)
+**Cleaning script:** [`layoffs_cleaning.sql`](layoffs_cleaning.sql)
+**Analysis:** [`exploration.sql`](exploration.sql)
 
 ## Approach
-
 - The raw table `layoffs` is never modified. All work happens in a copy, `layoffs_staging`.
 - The script is re-runnable: it rebuilds the staging table from the raw one, then applies every step in order.
 - Each risky change (duplicate removal, type conversion, bulk updates) is previewed with a `SELECT` before it is applied.
 
 ## Problems found and how they were solved
-
 | # | Problem | Solution |
 |---|---|---|
 | 1 | Two duplicate rows | `ROW_NUMBER()` over all event columns in a CTE, then `DELETE` by `ctid` (the table has no primary key) |
@@ -25,7 +23,6 @@ An end-to-end SQL data cleaning project: a raw CSV of company layoffs goes in, a
 | 7 | Columns not useful for analysis (`source` URLs, `date_added` metadata) | Dropped from the staging table |
 
 ## Decisions worth explaining
-
 - **Logistics and Transportation stay separate.** I checked whether any company appears in both categories: none does, so there is no evidence of a naming duplicate. Merging them would be a guess.
 - **`stage` for Zapp.** One Zapp row had no stage, another had `Series B`. `funds_raised` is identical in both rows, so no new funding round happened between them, and the stage was copied across. The other seven missing stages belong to companies that appear only once, so they were marked `Unknown`.
 - **`industry` for Appsmith and Eyeo.** Neither company appears elsewhere in the table. I chose the closest existing categories (`Infrastructure` and `Other`) instead of inventing new ones. This is a judgement call, flagged in the script.
@@ -34,7 +31,6 @@ An end-to-end SQL data cleaning project: a raw CSV of company layoffs goes in, a
 - **748 rows with no layoff figures at all (16.2%) are kept.** They still record that a layoff event happened. Analyses of layoff size should filter with `WHERE total_laid_off IS NOT NULL`.
 
 ## Before and after
-
 | | Raw | Cleaned |
 |---|---|---|
 | Rows | 4,615 | 4,613 |
@@ -47,24 +43,30 @@ An end-to-end SQL data cleaning project: a raw CSV of company layoffs goes in, a
 Raw Data <img width="1280" height="167" alt="image" src="https://github.com/user-attachments/assets/dcfa5eb6-fb19-431a-afbd-092c65d6bd30" />
 Cleaned Data<img width="1280" height="171" alt="image" src="https://github.com/user-attachments/assets/b412c6db-eab3-40e1-bb53-bd5026911ab0" />
 
+## Key findings
+*Based on the 3,013 events (65%) that report a headcount: 932,322 people in total.*
+
+- **2023 was the peak:** 265,660 people in 1,390 events. January 2023 alone was 89,709 (34% of that year).
+- **Fewer but bigger events since:** from 2023 to 2025 events fell 76%, people only 54%. 2026 (to Sep 23) already exceeds all of 2025.
+- **A few giants dominate:** five companies (Amazon, Intel, Meta, Microsoft, Dell) make up 21.2% of all layoffs; each leading industry is driven by one or two firms.
+- **Geography:** the US accounts for 70.91%, India 7.28% (spread across many companies, not a few), the top 10 countries ~94.5%.
+- **Layoff size grows with company maturity:** the median event is ~30 people at Seed/Series A, 48-96 at Series B-E and about 200 at post-IPO companies (overall median: 90). Post-IPO averages are inflated by a few giants, but even the median is more than double the overall one.
+
+Queries and notes: [exploration.sql](exploration.sql)
 
 ## SQL techniques used
-
-CTEs, window functions (`ROW_NUMBER`), self-joins, `ctid`-based deletes, `ALTER TABLE ... USING`, `FILTER` in aggregates, `STRING_AGG`, `TO_DATE`, `ROUND`, `TRIM`.
+CTEs, window functions (`ROW_NUMBER`, `RANK`, `LAG`), self-joins, `ctid`-based deletes, `ALTER TABLE ... USING`, `FILTER` in aggregates, `STRING_AGG`, `PERCENTILE_CONT` (median), `DATE_TRUNC`, `TO_DATE`, `ROUND`, `TRIM`.
 
 ## Lessons learned
-
 - Inspect the CSV header before creating the table: the real column order differed from what I assumed, and the import failed several times (wrong column count, `96.0` in an integer column, URLs longer than the declared length).
 - Drop columns you will not analyze (long URLs especially) right after creating the staging table; they make `SELECT *` hard to read.
 - Standardizing text can reveal new duplicates, so the duplicate check runs again at the end.
-
+- When ranking within an industry, group by company and industry together: industry is recorded per event, so summing by company alone double-counted companies that appear in two categories.
+  
 ## How to run
-
 1. Create the database and run STEP 0 of the script to create the `layoffs` table.
 2. Import the CSV in pgAdmin (Import/Export Data, Header = Yes, Delimiter = comma).
 3. Run the rest of the script top to bottom, or one step at a time.
 
 ## Planned next
-
-- An `exploration.sql` file with analytical queries on the cleaned data (layoffs by industry, by month, top companies)
 - A Power BI dashboard connected directly to the PostgreSQL table
