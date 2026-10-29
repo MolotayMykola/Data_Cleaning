@@ -1,4 +1,5 @@
 # Global Layoffs: Data Cleaning and Analysis in PostgreSQL
+![Power BI dashboard](images/dashboard.png)
 An end-to-end SQL project: a raw CSV of company layoffs is cleaned, then analyzed. Every cleaning decision is documented in the script and explained below.
 
 **Tools:** PostgreSQL 18, pgAdmin
