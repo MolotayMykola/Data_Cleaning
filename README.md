@@ -1,11 +1,16 @@
 # Global Layoffs: Data Cleaning and Analysis in PostgreSQL
 <img width="951" height="633" alt="dashboard" src="https://github.com/user-attachments/assets/2ae7277f-2957-4361-95e2-f3966c9c860b" />
 
-An end-to-end SQL project: a raw CSV of company layoffs is cleaned, then analyzed. Every cleaning decision is documented in the script and explained below.
+An end-to-end SQL project: a raw CSV of company layoffs is cleaned in PostgreSQL, analyzed with SQL, and presented in a Power BI dashboard connected directly to the database. Despite the dataset's name, it covers layoffs from 2020 to September 23, 2026.
 
-**Tools:** PostgreSQL 18, pgAdmin
-**Dataset:** [Global Layoffs 2022 on Kaggle](https://www.kaggle.com/datasets/swaptr/layoffs-2022) (4,615 rows, 11 columns at download time; the dataset is updated by its author)
-**Cleaning script:** [`layoffs_cleaning.sql`](layoffs_cleaning.sql)
+**Headline findings** (events with a reported headcount: 932,322 people):
+- 2023 was the peak: 265,660 people in 1,390 events.
+- The US accounts for 70.9% of reported layoffs; five companies (Amazon, Intel, Meta, Microsoft, Dell) make up 21%.
+- Layoff size grows with company maturity: the median event is ~30 people at Seed and ~200 at post-IPO companies.
+
+**Tools:** PostgreSQL 18, pgAdmin, Power BI
+**Dataset:** [Global Layoffs on Kaggle](https://www.kaggle.com/datasets/swaptr/layoffs-2022)
+**Cleaning:** [`layoffs_cleaning.sql`](layoffs_cleaning.sql) · **Analysis:** [`exploration.sql`](exploration.sql)
 **Analysis:** [`exploration.sql`](exploration.sql)
 
 ## Approach
