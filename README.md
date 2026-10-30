@@ -10,7 +10,7 @@ An end-to-end SQL project: a raw CSV of company layoffs is cleaned in PostgreSQL
 
 **Tools:** PostgreSQL 18, pgAdmin, Power BI
 **Dataset:** [Global Layoffs on Kaggle](https://www.kaggle.com/datasets/swaptr/layoffs-2022)
-**Cleaning:** [`layoffs_cleaning.sql`](layoffs_cleaning.sql) · **Analysis:** [`exploration.sql`](exploration.sql)
+**Cleaning:** [`layoffs_cleaning.sql`](layoffs_cleaning.sql)
 **Analysis:** [`exploration.sql`](exploration.sql)
 
 ## Approach
