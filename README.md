@@ -74,6 +74,3 @@ CTEs, window functions (`ROW_NUMBER`, `RANK`, `LAG`), self-joins, `ctid`-based d
 1. Create the database and run STEP 0 of the script to create the `layoffs` table.
 2. Import the CSV in pgAdmin (Import/Export Data, Header = Yes, Delimiter = comma).
 3. Run the rest of the script top to bottom, or one step at a time.
-
-## Planned next
-- A Power BI dashboard connected directly to the PostgreSQL table
